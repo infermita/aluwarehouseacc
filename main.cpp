@@ -71,5 +71,8 @@ int main(int argc, char *argv[])
 
     qInstallMessageHandler(myMessageHandler);
 
+    NfcThread nfcTh;
+    nfcTh.start();
+
     return a.exec();
 }
