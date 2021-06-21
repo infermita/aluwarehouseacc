@@ -82,9 +82,11 @@ void NfcThread::run(){
                          delay (200) ;
                          digitalWrite (pin, LOW);
 
+                     }else{
+                         read += "N";
                      }
 
-                     lcd = (read=="SI"?"OK":"KO");
+                     lcd = read+" PUOI ENTRARE";
                      wLcd->write(0,0,lcd.toUtf8().data());
 
                      while(!nfc_initiator_target_is_present(pnd,&nt)){
