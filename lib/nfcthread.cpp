@@ -3,6 +3,7 @@
 #include <QDebug>
 #include <QNetworkInterface>
 #include "wiringPi.h"
+#include "writelcd.h"
 
 NfcThread::NfcThread()
 {
@@ -14,7 +15,7 @@ void NfcThread::run(){
         .nmt = NMT_ISO14443A,
         .nbr = NBR_106,
     };
-    QString id,url,ip,read;
+    QString id,url,ip,read,lcd;
     int pin = 0;
     HttpClient http;
     int i;
@@ -22,6 +23,11 @@ void NfcThread::run(){
 
     wiringPiSetup();
     pinMode (pin, OUTPUT) ;
+
+    WriteLcd *wLcd = new WriteLcd();
+
+    wLcd->clear();
+    wLcd->write(0,0,"Attesa rete");
 
     while(ipcheck){
 
@@ -34,7 +40,6 @@ void NfcThread::run(){
         else
             sleep(1);
     }
-
 
     while(1){
          nfc_init(&context);
@@ -53,6 +58,10 @@ void NfcThread::run(){
 
              }else{
                  qDebug() << "Nfc iniator";
+
+                 wLcd->clear();
+                 wLcd->write(0,0,"Attesa badge");
+
                  if(nfc_initiator_select_passive_target(pnd, nmMifare, NULL, 0, &nt) > 0){
                      id = "";
                      for(i = 0; i < nt.nti.nai.szUidLen;i++){
@@ -74,6 +83,9 @@ void NfcThread::run(){
                          digitalWrite (pin, LOW);
 
                      }
+
+                     lcd = (read=="SI"?"OK":"KO");
+                     wLcd->write(0,0,lcd.toUtf8().data());
 
                      while(!nfc_initiator_target_is_present(pnd,&nt)){
                          sleep(1);

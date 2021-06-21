@@ -16,7 +16,8 @@ TEMPLATE = app
 
 SOURCES += main.cpp \
     lib/nfcthread.cpp \
-    lib/httpclient.cpp
+    lib/httpclient.cpp \
+    lib/writelcd.cpp
 
 
 # The following define makes your compiler emit warnings if you use
@@ -32,4 +33,5 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 HEADERS += \
     lib/nfcthread.h \
-    lib/httpclient.h
+    lib/httpclient.h \
+    lib/writelcd.h
