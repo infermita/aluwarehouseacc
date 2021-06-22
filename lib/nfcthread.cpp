@@ -20,6 +20,8 @@ void NfcThread::run(){
     HttpClient http;
     int i;
     bool ipcheck = true;
+    QStringList myOptions;
+    myOptions << "SI" << "NO";
 
     wiringPiSetup();
     pinMode (pin, OUTPUT) ;
@@ -76,22 +78,24 @@ void NfcThread::run(){
 
                      qDebug() << "Per: " << id << "leggo: " << read;
 
-                     if(read=="SI"){
+                     switch (myOptions.indexOf(read)) {
+                         case 0:
+                             lcd = read+" PUOI ENTRARE";
+                             wLcd->write(0,0,lcd.toUtf8().data());
 
-                         lcd = read+" PUOI ENTRARE";
-                         wLcd->write(0,0,lcd.toUtf8().data());
-
-                         digitalWrite (pin, HIGH) ;
-                         delay (500) ;
-                         digitalWrite (pin, LOW);
-
-                     }else if(read=="NO"){
-                         read += "N";
-                         lcd = read+" PUOI ENTRARE";
-                         wLcd->write(0,0,lcd.toUtf8().data());
-                     }else{
-                         lcd = "ERRORE SERVER";
-                         wLcd->write(0,0,lcd.toUtf8().data());
+                             digitalWrite (pin, HIGH) ;
+                             delay (500) ;
+                             digitalWrite (pin, LOW);
+                             break;
+                         case 1:
+                             read += "N";
+                             lcd = read+" PUOI ENTRARE";
+                             wLcd->write(0,0,lcd.toUtf8().data());
+                             break;
+                         default:
+                             lcd = "ERRORE SERVER";
+                             wLcd->write(0,0,lcd.toUtf8().data());
+                             break;
                      }
 
                      while(!nfc_initiator_target_is_present(pnd,&nt)){
