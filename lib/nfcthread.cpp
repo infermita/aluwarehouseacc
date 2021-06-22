@@ -27,7 +27,7 @@ void NfcThread::run(){
     WriteLcd *wLcd = new WriteLcd();
 
     wLcd->clear();
-    wLcd->write(0,0,"Attesa rete");
+    wLcd->write(0,0,"ATTESA RETE");
 
     while(ipcheck){
 
@@ -60,7 +60,7 @@ void NfcThread::run(){
                  qDebug() << "Nfc iniator";
 
                  wLcd->clear();
-                 wLcd->write(0,0,"Attesa badge");
+                 wLcd->write(0,0,"ATTESA BADGE");
 
                  if(nfc_initiator_select_passive_target(pnd, nmMifare, NULL, 0, &nt) > 0){
                      id = "";
