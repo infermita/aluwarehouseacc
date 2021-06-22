@@ -85,9 +85,12 @@ void NfcThread::run(){
                          delay (500) ;
                          digitalWrite (pin, LOW);
 
-                     }else{
+                     }else if(read=="NO"){
                          read += "N";
                          lcd = read+" PUOI ENTRARE";
+                         wLcd->write(0,0,lcd.toUtf8().data());
+                     }else{
+                         lcd = "ERRORE SERVER";
                          wLcd->write(0,0,lcd.toUtf8().data());
                      }
 
