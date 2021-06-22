@@ -78,22 +78,25 @@ void NfcThread::run(){
 
                      if(read=="SI"){
 
+                         lcd = read+" PUOI ENTRARE";
+                         wLcd->write(0,0,lcd.toUtf8().data());
+
                          digitalWrite (pin, HIGH) ;
                          delay (500) ;
                          digitalWrite (pin, LOW);
 
                      }else{
                          read += "N";
+                         lcd = read+" PUOI ENTRARE";
+                         wLcd->write(0,0,lcd.toUtf8().data());
                      }
-
-                     lcd = read+" PUOI ENTRARE";
-                     wLcd->write(0,0,lcd.toUtf8().data());
 
                      while(!nfc_initiator_target_is_present(pnd,&nt)){
                          sleep(1);
                      }
                      nfc_close(pnd);
                      nfc_exit(context);
+                     delay (500) ;
 
                  }
              }
