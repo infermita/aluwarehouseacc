@@ -79,7 +79,7 @@ void NfcThread::run(){
                      if(read=="SI"){
 
                          digitalWrite (pin, HIGH) ;
-                         delay (200) ;
+                         delay (500) ;
                          digitalWrite (pin, LOW);
 
                      }else{
